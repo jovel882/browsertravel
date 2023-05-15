@@ -18,14 +18,16 @@
         <nav class="bg-gray-800 text-white p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 lg:flex-row">
-                    <span class="text-2xl font-semibold text-left"
-                        >BrowserTravel</span
-                    >
+                    <a href="{{ route('map') }}" class="flex items-center space-x-2">
+                        <span class="text-2xl font-semibold text-left"
+                            >BrowserTravel</span
+                        >
+                    </a>
                     <div
                         id="menu-items"
                         class="hidden lg:flex lg:items-center lg:space-x-4"
                     >
-                        <a href="{{route('map')}}" class="flex items-center space-x-2">
+                        <a href="{{ route('map') }}" class="flex items-center space-x-2">
                             <svg
                                 class="w-6 h-6 text-white"
                                 fill="none"
@@ -40,7 +42,7 @@
                             </svg>
                             <span class="font-semibold">Mapa</span>
                         </a>
-                        <a href="#" class="flex items-center space-x-2">
+                        <a href="{{ route('history.show') }}" class="flex items-center space-x-2">
                             <svg
                                 class="w-6 h-6 text-white"
                                 fill="none"

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+apk add --update nodejs npm && cp .env.example .env && sed -i -r 's/^(DB_HOST=).*/\1mdb_browsertravel/' ".env" && sed -i -r 's/^(DB_DATABASE=).*/\1${MYSQL_DATABASE}/' ".env" && sed -i -r 's/^(DB_PASSWORD=).*/\1${MYSQL_ROOT_PASSWORD}/' ".env" && sed -i -r 's/^(API_KEY_WEATHER=).*/\1${API_KEY_WEATHER_ORI}/' ".env" && composer install && php artisan key:generate && php artisan migrate --seed && npm install && npm run build

@@ -1,0 +1,48 @@
+version: '3'
+services:
+  proxyC:
+    image: jwilder/nginx-proxy
+    container_name: proxyC
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+    privileged: true
+    networks:
+      - local_containers            
+  mdb_browsertravel:
+    image: mariadb:10.3.38
+    container_name: mdb_browsertravel
+    ports:
+      - "3356:3306"
+    restart: always
+    env_file: 
+      - .env
+    networks:
+      - local_containers            
+  browsertravel:
+    image: richarvey/nginx-php-fpm:2.1.2
+    container_name: browsertravel
+    dns:
+      - 8.8.8.8    
+    volumes:
+      - ../.:/var/www/html
+      - ./default.conf:/etc/nginx/sites-available/default.conf
+    env_file:
+      - .env
+    environment:
+      - SKIP_COMPOSER=1
+      - VIRTUAL_HOST=browsertravel.test
+    networks:
+      - local_containers
+    restart: always
+    command: bash -c 'chmod 777 ./Docker/start.sh && ./Docker/start.sh && /start.sh'
+    depends_on:
+      - proxyC
+      - mdb_browsertravel
+    privileged: true
+networks:
+  local_containers:
+    name: local_containers

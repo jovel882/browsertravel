@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HumidityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get(
     '/',
-    function () {
-        return view('map');
-    }
+    [HumidityController::class, 'showActualMap']
 )
     ->name('map');
+Route::prefix('history')->group(function () {
+    Route::post(
+        '/',
+        [HumidityController::class, 'storeHistory']
+    )
+        ->name('history');
+    Route::get(
+        '/',
+        [HumidityController::class, 'showHistory']
+    )
+        ->name('history.show');
+    Route::get(
+        '/{history}',
+        [HumidityController::class, 'showHistoryDetail']
+    )
+        ->name('history.show.specific');
+});
+

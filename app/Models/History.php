@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class History extends Model
 {
@@ -17,4 +18,19 @@ class History extends Model
     {
         $this->attributes['data'] = json_encode($data);
     }
+
+    public static function store(array $data) : array
+    {
+        DB::beginTransaction();
+
+        try {
+            self::create($data);
+            DB::commit();
+            return ['status' => true];
+        } catch (\Exception $e) {
+            DB::rollback();
+            return ['status' => false, 'message' => $e->getMessage()];
+        }
+    }
+    
 }
