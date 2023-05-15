@@ -3,7 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Browser Travel - @yield('title', '')</title>
         @vite('resources/css/app.css')
+
+        @yield('cssGeneral')
+        @yield('jsInclude')
+
+        @stack('cssGeneral')
+        @stack('jsInclude')
     </head>
 
     <body class="bg-gray-900 text-white">
@@ -18,7 +25,7 @@
                         id="menu-items"
                         class="hidden lg:flex lg:items-center lg:space-x-4"
                     >
-                        <a href="#" class="flex items-center space-x-2">
+                        <a href="{{route('map')}}" class="flex items-center space-x-2">
                             <svg
                                 class="w-6 h-6 text-white"
                                 fill="none"
@@ -76,14 +83,16 @@
 
         <!-- Área de trabajo -->
         <div class="container mx-auto px-4 py-8 lg:px-8 lg:py-12">
-            <h1 class="text-2xl font-semibold mb-4">Área de trabajo</h1>
+            @yield('appContent')
         </div>
-
         <script>
             function toggleMenu() {
                 var menuItems = document.getElementById("menu-items");
                 menuItems.classList.toggle("hidden");
             }
         </script>
+        @yield('jsGeneral')
+        @stack('jsGeneral')
+        
     </body>
 </html>
